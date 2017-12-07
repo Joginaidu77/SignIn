@@ -1,0 +1,8 @@
+general:
+artifacts:
+-/C:\Users\jogi\workspace\Cricleci\circle.yml
+machine:
+environment:/usr/local/android-sdk-linux
+dependencies:
+override: - echo y | android update sdk --no-ui --all --filter "com.unify.robo"
+
