@@ -1,0 +1,37 @@
+#Bolt Connections deployment object
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: bolt-connections-ui-k8deployement
+  namespace: __CI_ENVIRONMENT_NAME__
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  revisionHistoryLimit: 5
+  template:
+    metadata:
+      labels:
+        app: bolt-connections-ui
+      annotations:
+        kubernetes.io/change-cause: __CI_COMMIT_TAG__
+    spec:
+      containers:
+      - name: bolt-connections-ui-k8container
+        image: 921499379813.dkr.ecr.us-west-2.amazonaws.com/bolt-connections-ui:__CI_COMMIT_SHA__
+        resources:
+          limits:
+            memory: "250Mi"
+            cpu: "500m"
+          requests:
+            memory: "250Mi"
+            cpu: "500m"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+        - name: ecr-secret
